@@ -1,0 +1,27 @@
+<html>
+
+<body style="background-color:powderblue;">
+<div>
+    <form method="post">
+        <textarea type="text" name="text" placeholder="Enter the note here"></textarea>
+        <input type="text" name="tag" placeholder="Tag">
+        <button type="submit">Add</button>
+    </form>
+</div>
+
+<form method="post" action="filter">
+    <input type="text" name="filter">
+    <button type="submit">Find by tag</button>
+</form>
+<div>List of messages</div>
+{{#notes}}
+    <div><h3>
+        <b>{{id}}</b>
+        <span>{{text}}</span>
+        <h5>
+            <p><i>{{tag}}</i></p>
+        </h5>
+    </h3></div>
+{{/notes}}
+</body>
+</html>
