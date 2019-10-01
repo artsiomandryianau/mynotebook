@@ -1,27 +1,67 @@
 <html>
+<head>
+    <style>
+   p.dline {
+    line-height: 1.5;
+   }
+   P {
+    line-height: 0.5em;
+   }
 
+   div {
+   line-height: 0.5em;
+   }
+
+
+
+    </style>
+</head>
 <body style="background-color:powderblue;">
 <div>
-    <form method="post">
-        <textarea type="text" name="text" placeholder="Enter the note here"></textarea>
+    <form action="/logout" method="post">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+        <input type="submit" value="Sign Out"/>
+    </form>
+</div>
+<div>
+    <form method="post" action="main">
+        <img src="https://st.depositphotos.com/1637056/2958/i/450/depositphotos_29589345-stock-photo-open-blank-notebook-on-grunge.jpg"
+             alt="Note" height="110" width="110"/>
+
+        <textarea rows="5" cols="50"
+                  style="font-family:Times New Roman;color:#003399;white-space:pre-wrap" type="text" name="text"
+                  placeholder="Enter the note here"></textarea>
         <input type="text" name="tag" placeholder="Tag">
+        <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
         <button type="submit">Add</button>
     </form>
 </div>
 
 <form method="post" action="filter">
     <input type="text" name="filter">
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
     <button type="submit">Find by tag</button>
 </form>
-<div>List of messages</div>
+<form method="post" action="removeNote">
+    <input type="text" name="removeNote">
+    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+    <button type="submit">Remove note</button>
+</form>
+<div><h1>List of notes</h1></div>
+
+
 {{#notes}}
-    <div><h3>
-        <b>{{id}}</b>
-        <span>{{text}}</span>
-        <h5>
-            <p><i>{{tag}}</i></p>
-        </h5>
-    </h3></div>
+    <div>
+        <h3>
+            <b>{{id}}</b>
+            <span>{{text}}</span>
+            <h5>
+                <p><i>{{tag}}</i></p>
+                <i></i>{{date}}
+            </h5>
+        </h3>
+    </div>
 {{/notes}}
+
 </body>
 </html>
