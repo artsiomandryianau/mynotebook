@@ -17,6 +17,7 @@ public class Note {
     @JoinColumn(name = "user_id")
     private User author;
 
+    private String filename;
     public Note() { }
 
     public Note(String text, String tag, User user) {
@@ -54,6 +55,14 @@ public class Note {
 
     public String getText() {
         return text;
+    }
+
+    public String getFilename() {
+        return filename;
+    }
+
+    public void setFilename(String filename) {
+        this.filename = filename;
     }
 
     public void setText(String text) {
