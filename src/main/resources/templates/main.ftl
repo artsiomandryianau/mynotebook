@@ -1,29 +1,9 @@
-<html>
-<head>
-    <style>
-   p.dline {
-    line-height: 1.5;
-   }
-   P {
-    line-height: 0.5em;
-   }
+<#import "parts/common.ftl" as c>
+<#import "parts/login.ftl" as l>
 
-   div {
-   line-height: 0.5em;
-   }
-
-
-
-
-
-    </style>
-</head>
-<body style="background-color:powderblue;">
+<@c.page>
 <div>
-    <form action="/logout" method="post">
-        <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
-        <input type="submit" value="Sign Out"/>
-    </form>
+    <@l.logout />
 </div>
 <div>
     <form method="post" action="main" enctype="multipart/form-data">
@@ -35,39 +15,41 @@
                   placeholder="Enter the note here"></textarea>
         <input type="text" name="tag" placeholder="Tag">
         <input type="file" name="file"/>
-        <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+        <input type="hidden" name="_csrf" value="${_csrf.token}"/>
         <button type="submit">Add</button>
     </form>
 </div>
 
-<form method="post" action="filter">
-    <input type="text" name="filter">
-    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+<form method="get" action="/main">
+    <input type="text" name="filter" value="${filter?ifExists}">
     <button type="submit">Find by tag</button>
 </form>
 <form method="post" action="removeNote">
     <input type="text" name="removeNote">
-    <input type="hidden" name="_csrf" value="{{_csrf.token}}"/>
+    <input type="hidden" name="_csrf" value="${_csrf.token}"/>
     <button type="submit">Remove note</button>
 </form>
 <div><h1>List of notes</h1></div>
 
 
-{{#notes}}
+<#list notes as note>
     <div>
         <h3>
-            <b>{{id}}</b>
-            <span>{{text}}</span>
+            <b>${note.id}</b>
+            <span>${note.text}</span>
             <div>
-            <img src="/img/${note.filename}">
+                <#if note.filename??>
+                <img src="/img/${note.filename}">
+            </#if>
             </div>
             <h5>
-                <p><i>{{tag}}</i></p>
-                <i></i>{{date}}
+                <p><i>${note.tag}</i>
+                <i>${note.date}</i></p>
             </h5>
         </h3>
     </div>
-{{/notes}}
+<#else>
+No notes
+</#list>
 
-</body>
-</html>
+</@c.page>

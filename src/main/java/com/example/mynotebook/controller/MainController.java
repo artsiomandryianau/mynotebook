@@ -35,10 +35,17 @@ public class MainController {
     }
 
     @GetMapping("/main")
-    public String main(Map<String, Object> model) {
+    public String main(
+            @RequestParam(required = false, defaultValue = "") String filter,
+            Model model) {
         Iterable<Note> notes = noteRepo.findAll();
-
-        model.put("notes", notes);
+        if (filter != null && !filter.isEmpty()) {
+            notes = noteRepo.findByTag(filter);
+        } else {
+            notes = noteRepo.findAll();
+        }
+        model.addAttribute("notes", notes);
+        model.addAttribute("filter", filter);
 
         return "main";
     }
@@ -46,6 +53,7 @@ public class MainController {
 
     @PostMapping("/main")
     public String add(@RequestParam String text,
+                      @RequestParam(required = false, defaultValue = "") String filter,
                       @AuthenticationPrincipal User user,
                       @RequestParam String tag, Map<String, Object> model,
                       @RequestParam("file")MultipartFile file) throws IOException {
@@ -70,20 +78,7 @@ public class MainController {
         return "main";
     }
 
-    @PostMapping("filter")
-    public String filter(@RequestParam String filter, Map<String, Object> model) {
-        Iterable<Note> notes;
 
-        if (filter != null && !filter.isEmpty()) {
-            notes = noteRepo.findByTag(filter);
-        } else {
-            notes = noteRepo.findAll();
-        }
-
-        model.put("notes", notes);
-
-        return "main";
-    }
     @PostMapping("removeNote")
     public String deleteNote(@RequestParam Integer removeNote, Map<String, Object> model) {
         Note note;
