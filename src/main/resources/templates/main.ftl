@@ -25,7 +25,7 @@
             </div>
             <div class="form-group">
                 <div class="custom-file">
-                    <input type="file" name="filename" id="file">
+                    <input type="file" name="file" id="file">
                     <label class="custom-file-label" for="file">Choose file</label>
                 </div>
             </div>
